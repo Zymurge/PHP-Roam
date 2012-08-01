@@ -15,8 +15,8 @@ switch( $action ) {
 	case "register":
 		# do some stuff
 		$name = $_POST['name'];
-		$decription = $_POST['description'];
-		if( ! $person = addNewUser( $name, $decription, randomLocationId() ) ) {
+		$description = $_POST['description'];
+		if( ! $person = addNewUser( $name, $description, randomLocationId() ) ) {
 			echo "User '{$name}' already taken.";
 			echo "<p><a href=\"register.php\">Try again</a>";
 			exit();

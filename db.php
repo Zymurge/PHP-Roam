@@ -64,9 +64,9 @@ function getPersonById( $person_id ) {
 
 function getPersonByName( $name ) {
 	$result = getQueryResult( "SELECT * FROM people WHERE name = \"$name\" ;" );
-	$rows = mysql_num_rows( $result ) or die( "getPersonByName-mysql_num_rows: " . mysql_error() );
-	if( $rows > 0 ) {
-		return mysql_fetch_array( $result ) or die( "getPersonByName-mysql_fetch_array: " . mysql_error() );
+	if( $rows = mysql_num_rows( $result ) > 0 ) {
+		$person= mysql_fetch_array( $result ) or die( "getPersonByName-mysql_fetch_array: " . mysql_error() );
+		return $person;
 	} else {
 		return false;
 	}
