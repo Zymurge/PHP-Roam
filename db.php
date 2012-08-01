@@ -81,11 +81,11 @@ function getPersonByName( $name ) {
 	}
 }
 	
-function pathLink( $locationId, $personId ) {
+function createButtonLink( $locationId, $personId ) {
 	$form = "\n<form action=\"processMove.php\" method=\"post\">
 		<input name=\"person\" value=\"$personId\" type=\"hidden\" />
 		<input name=\"moveTo\" value=\"$locationId\" type=\"hidden\" />
-		<input type=\"submit\" value=\"Go\" />
+		<input type=\"submit\" value=\"Go\" style=\"height: 14pt; color: moccasin; background-color: saddlebrown;\" />
 		</form>";
 
 	return $form;
