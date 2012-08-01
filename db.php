@@ -72,11 +72,12 @@ function getPersonByName( $name ) {
 	}
 }
 	
-function pathLink( $id ) {
-	$result = mysql_query( "SELECT * FROM locations WHERE id = $id ;" ) or die( mysql_error() );
+function pathLink( $locationId, $personId ) {
+	$result = getQueryResult( "SELECT * FROM locations WHERE id = $locationId ;" );
 	$locinfo = mysql_fetch_array( $result );
-	$form = "\n<form action=\"move.php\" method=\"post\">
-		<input name=\"user\" value=\"$id\" type=\"hidden\" />
+	$form = "\n<form action=\"processMove.php\" method=\"post\">
+		<input name=\"person\" value=\"$personId\" type=\"hidden\" />
+		<input name=\"moveTo\" value=\"{$locinfo['id']}\" type=\"hidden\" />
 		<input type=\"submit\" value=\"{$locinfo['name']}\" />
 		</form>";
 
@@ -90,7 +91,7 @@ function randomLocationId() {
 }
 
 function setPersonLocation( $user_id, $loc_id ) {
-	$result = getQueryResult( "UPDATE people_map SET location_id = $loc_id WHERE person_id = '$user_id' ;" );
+	$result = getQueryResult( "UPDATE people_map SET location_id = $loc_id WHERE person_id = $user_id ;" );
 	return $result;
 }
 
