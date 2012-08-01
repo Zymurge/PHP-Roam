@@ -40,7 +40,7 @@ function addNewUser( $name, $description, $location_id ) {
 }
 
 function getLocationById( $loc_id ) {
-	$result = mysql_query( "SELECT * FROM locations WHERE id = $loc_id ;" ) or die( mysql_error() );
+	$result = getQueryResult( "SELECT * FROM locations WHERE id = $loc_id ;" );
 	$locinfo = mysql_fetch_array( $result );
 	return $locinfo;
 }
@@ -49,6 +49,15 @@ function getLocationByPerson( $person_id ) {
 	$result = mysql_query( "SELECT * FROM people_map WHERE person_id = $person_id ;" ) or die( mysql_error() );
 	$person = mysql_fetch_array( $result );
 	return $person;
+}
+
+function getPathsListByLocId( $loc_id ) {
+	$result = getQueryResult( 
+		"SELECT locations.name, locations.id, paths.distance 
+		   FROM paths, locations 
+		  WHERE ( paths.node1 = $loc_id and locations.id = paths.node2 )
+		     OR ( paths.node2 = $loc_id and locations.id = paths.node1 );" );
+	return $result;
 }
 
 function getPeopleListResult( $loc_id ) {
@@ -73,12 +82,10 @@ function getPersonByName( $name ) {
 }
 	
 function pathLink( $locationId, $personId ) {
-	$result = getQueryResult( "SELECT * FROM locations WHERE id = $locationId ;" );
-	$locinfo = mysql_fetch_array( $result );
 	$form = "\n<form action=\"processMove.php\" method=\"post\">
 		<input name=\"person\" value=\"$personId\" type=\"hidden\" />
-		<input name=\"moveTo\" value=\"{$locinfo['id']}\" type=\"hidden\" />
-		<input type=\"submit\" value=\"{$locinfo['name']}\" />
+		<input name=\"moveTo\" value=\"$locationId\" type=\"hidden\" />
+		<input type=\"submit\" value=\"Go\" />
 		</form>";
 
 	return $form;
